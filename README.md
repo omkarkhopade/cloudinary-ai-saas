@@ -1,6 +1,7 @@
 # Cloudinary AI Powered SaaS
 
-A Next.js app using Clerk authentication, Cloudinary uploads, Prisma, Postgres/Neon, Tailwind CSS, and DaisyUI.
+
+
 
 ## Setup
 
