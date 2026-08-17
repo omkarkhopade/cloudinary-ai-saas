@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { v2 as cloudinary } from 'cloudinary';
-import { auth } from '@clerk/nextjs/server';
 
 // Configuration
 cloudinary.config({
@@ -15,6 +14,10 @@ interface CloudinaryUploadResult {
 }
 
 export async function POST(request: NextRequest) {
+    if (!process.env.CLERK_SECRET_KEY || process.env.CLERK_SECRET_KEY.includes("...")) {
+        return NextResponse.json({ error: "Authentication is not configured" }, { status: 503 });
+    }
+    const { auth } = await import('@clerk/nextjs/server');
     const {userId} = auth()
 
     if (!userId) {

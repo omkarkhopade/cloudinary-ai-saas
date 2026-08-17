@@ -1,5 +1,6 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
+import { isClerkConfigured } from './lib/auth-config';
 
 const isPublicRoute = createRouteMatcher([
     "/sign-in",
@@ -12,7 +13,7 @@ const isPublicApiRoute = createRouteMatcher([
 ])
 
 
-export default clerkMiddleware((auth, req) => {
+const authenticationMiddleware = clerkMiddleware((auth, req) => {
     const {userId} = auth();
     const currentUrl = new URL(req.url)
      const isAccessingDashboard = currentUrl.pathname === "/home"
@@ -37,6 +38,8 @@ export default clerkMiddleware((auth, req) => {
     return NextResponse.next()
 
 })
+
+export default isClerkConfigured ? authenticationMiddleware : () => NextResponse.next();
 
 export const config = {
   matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
