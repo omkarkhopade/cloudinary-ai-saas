@@ -1,8 +1,6 @@
 # Cloudinary AI Powered SaaS
 
 
-
-
 ## Setup
 
 1. Install dependencies:
